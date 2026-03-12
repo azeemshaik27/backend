@@ -5,15 +5,10 @@ const login = async (req, res) => {
 };
 const validateUser = async (req, res) => {
   const { email, password } = req.body;
-  const user = await userModel.findOne({ email, role: "admin" });
-  if (user) {
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (isMatch) {
-      req.session.user = user;
-      res.redirect("/");
-    } else {
-      res.redirect("/auth/login");
-    }
+  // Mock admin user check
+  if (email === 'admin@example.com' && password === 'admin') {
+    req.session.user = { _id: 1, email, role: 'admin', name: 'Admin' };
+    res.redirect("/");
   } else {
     res.redirect("/auth/login");
   }
